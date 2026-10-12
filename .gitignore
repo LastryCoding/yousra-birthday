@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+*.db*
+.rate-limit-secret
+.env
+data/
+backups/

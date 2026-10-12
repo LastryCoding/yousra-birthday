@@ -1,0 +1,29 @@
+name: yousra-birthday
+
+services:
+  site:
+    image: nginx:stable-alpine
+    container_name: yousra-birthday
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+    volumes:
+      - /home/lastry/apps/yousra-birthday/index.html:/usr/share/nginx/html/index.html:ro
+      - /home/lastry/apps/yousra-birthday/messages.js:/usr/share/nginx/html/messages.js:ro
+      - /home/lastry/apps/yousra-birthday/messages.json:/usr/share/nginx/html/messages.json:ro
+      - /home/lastry/apps/yousra-birthday/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      web:
+        aliases:
+          - yousra-birthday
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:80/api/messages"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+networks:
+  web:
+    external: true
